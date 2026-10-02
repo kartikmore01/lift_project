@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Camera Crowd Detector</title>
+<style>
+  body{font-family:system-ui,sans-serif;max-width:560px;margin:20px auto;padding:0 14px}
+  input{width:100%;padding:10px;font-size:1rem;margin:6px 0 12px}
+  button{padding:10px 16px;font-size:1rem}
+  video{width:100%;border-radius:8px;background:#000;margin-top:12px}
+  .n{font-size:2.5rem;font-weight:700}
+</style>
+</head>
+<body>
+<h1>Camera Crowd Detector</h1>
+<label>Backend URL (local: http://localhost:8000, deploy ke baad Render URL)</label>
+<input id="api" value="http://localhost:8000">
+<button id="start">Start camera</button>
+<p id="status">Ready.</p>
+<div>People: <span class="n" id="n">0</span></div>
+<video id="v" autoplay muted playsinline></video>
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3"></script>
+<script>
+const status = document.getElementById("status");
+document.getElementById("start").onclick = async () => {
+  const api = document.getElementById("api").value.replace(/\/$/, "");
+  const v = document.getElementById("v");
+  try {
+    status.textContent = "Camera khul raha hai...";
+    v.srcObject = await navigator.mediaDevices.getUserMedia({ video: true });
+    status.textContent = "Model load ho raha hai (thoda time lagega)...";
+    const model = await cocoSsd.load();
+    status.textContent = "Running. Har 2 sec me count bhej raha hai.";
+    setInterval(async () => {
+      const preds = await model.detect(v);
+      const count = preds.filter(p => p.class === "person").length;
+      document.getElementById("n").textContent = count;
+      fetch(api + "/crowd", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ crowd_count: count })
+      }).catch(e => status.textContent = "Backend error: " + e);
+    }, 2000);
+  } catch (e) {
+    status.textContent = "Error: " + e;
+  }
+};
+</script>
+</body>
+</html>
