@@ -1,0 +1,199 @@
+{
+  "version": "8",
+  "dialect": "postgres",
+  "id": "b9bc73fa-e058-4f5e-a013-6ee928be54f7",
+  "prevIds": [
+    "00000000-0000-0000-0000-000000000000"
+  ],
+  "ddl": [
+    {
+      "isRlsEnabled": false,
+      "name": "lifts",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "waiting",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "id",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "lifts"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "name",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "lifts"
+    },
+    {
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "0",
+      "generated": null,
+      "identity": null,
+      "name": "floor",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "lifts"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "'idle'",
+      "generated": null,
+      "identity": null,
+      "name": "direction",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "lifts"
+    },
+    {
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "0",
+      "generated": null,
+      "identity": null,
+      "name": "load",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "lifts"
+    },
+    {
+      "type": "bigint",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "0",
+      "generated": null,
+      "identity": null,
+      "name": "updated",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "lifts"
+    },
+    {
+      "type": "boolean",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "false",
+      "generated": null,
+      "identity": null,
+      "name": "maintenance",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "lifts"
+    },
+    {
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "dispatch_floor",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "lifts"
+    },
+    {
+      "type": "bigint",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "dispatch_step",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "lifts"
+    },
+    {
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "floor",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "waiting"
+    },
+    {
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "0",
+      "generated": null,
+      "identity": null,
+      "name": "count",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "waiting"
+    },
+    {
+      "type": "bigint",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "0",
+      "generated": null,
+      "identity": null,
+      "name": "updated",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "waiting"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "lifts_pkey",
+      "schema": "public",
+      "table": "lifts",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "floor"
+      ],
+      "nameExplicit": false,
+      "name": "waiting_pkey",
+      "schema": "public",
+      "table": "waiting",
+      "entityType": "pks"
+    }
+  ],
+  "renames": []
+}

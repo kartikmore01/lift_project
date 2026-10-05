@@ -10,12 +10,15 @@
   button{padding:10px 16px;font-size:1rem}
   video{width:100%;border-radius:8px;background:#000;margin-top:12px}
   .n{font-size:2.5rem;font-weight:700}
+  .dispatch{padding:8px 12px;border-radius:8px;border:1px solid #ccc}
+  .dispatch.on{background:#fff4cc;border-color:#e8a800;font-weight:700}
 </style>
 </head>
 <body>
 <h1>Camera Crowd Detector</h1>
-<label>Backend URL (local: http://localhost:8000, deploy ke baad Render URL)</label>
-<input id="api" value="http://localhost:8000">
+<p><a href="/">&larr; Lift Dashboard</a></p>
+<label>Backend URL (isi site par: /api)</label>
+<input id="api" value="/api">
 <label>Ye camera kis floor par laga hai?</label>
 <select id="floor">
   <option value="0">Floor 0</option><option value="1">Floor 1</option>
@@ -25,6 +28,7 @@
 <button id="start">Start camera</button>
 <p id="status">Ready.</p>
 <div>People: <span class="n" id="n">0</span></div>
+<p id="dispatch" class="dispatch">6 ya zyada log dikhe to Lift B aur Lift C is floor par apne aap bheji jaayengi.</p>
 <video id="v" autoplay muted playsinline></video>
 
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0"></script>
@@ -49,6 +53,15 @@ document.getElementById("start").onclick = async () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ crowd_count: count, floor: floor })
+      }).then(r => r.json()).then(d => {
+        const el = document.getElementById("dispatch");
+        if (d.dispatched && d.dispatched.length) {
+          el.className = "dispatch on";
+          el.textContent = "Bheed hai! Lift " + d.dispatched.join(" aur Lift ") + " floor " + floor + " par bheji gayi.";
+        } else {
+          el.className = "dispatch";
+          el.textContent = d.crowded ? "Bheed hai, par Lift B/C maintenance me hain." : "Bheed nahi hai (6 se kam log).";
+        }
       }).catch(e => status.textContent = "Backend error: " + e);
     }, 2000);
   } catch (e) {
