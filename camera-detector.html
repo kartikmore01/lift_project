@@ -6,7 +6,7 @@
 <title>Camera Crowd Detector</title>
 <style>
   body{font-family:system-ui,sans-serif;max-width:560px;margin:20px auto;padding:0 14px}
-  input{width:100%;padding:10px;font-size:1rem;margin:6px 0 12px}
+  input,select{width:100%;padding:10px;font-size:1rem;margin:6px 0 12px}
   button{padding:10px 16px;font-size:1rem}
   video{width:100%;border-radius:8px;background:#000;margin-top:12px}
   .n{font-size:2.5rem;font-weight:700}
@@ -16,6 +16,12 @@
 <h1>Camera Crowd Detector</h1>
 <label>Backend URL (local: http://localhost:8000, deploy ke baad Render URL)</label>
 <input id="api" value="http://localhost:8000">
+<label>Ye camera kis floor par laga hai?</label>
+<select id="floor">
+  <option value="0">Floor 0</option><option value="1">Floor 1</option>
+  <option value="2">Floor 2</option><option value="3">Floor 3</option>
+  <option value="4">Floor 4</option><option value="5">Floor 5</option>
+</select>
 <button id="start">Start camera</button>
 <p id="status">Ready.</p>
 <div>People: <span class="n" id="n">0</span></div>
@@ -27,6 +33,7 @@
 const status = document.getElementById("status");
 document.getElementById("start").onclick = async () => {
   const api = document.getElementById("api").value.replace(/\/$/, "");
+  const floor = parseInt(document.getElementById("floor").value);
   const v = document.getElementById("v");
   try {
     status.textContent = "Camera khul raha hai...";
@@ -41,7 +48,7 @@ document.getElementById("start").onclick = async () => {
       fetch(api + "/crowd", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ crowd_count: count })
+        body: JSON.stringify({ crowd_count: count, floor: floor })
       }).catch(e => status.textContent = "Backend error: " + e);
     }, 2000);
   } catch (e) {
