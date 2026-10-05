@@ -8,31 +8,58 @@
   :root{
     --bg:#e8eae6; --panel:#f6f7f4; --ink:#1b2a2e; --muted:#5d6b6e;
     --line:#c7ccc6; --car:#1f4fd8; --amber:#e8a800; --ok:#1c7c4d; --bad:#b3261e;
+    --bandbg:rgba(232,168,0,.22);
   }
   @media (prefers-color-scheme: dark){
-    :root{ --bg:#151a1c; --panel:#1e2528; --ink:#e6ebe8; --muted:#8f9ca0; --line:#34403f; --car:#6d8cff; --amber:#f2b705; --ok:#4cc38a; --bad:#ff7b72; }
+    :root{ --bg:#151a1c; --panel:#1e2528; --ink:#e6ebe8; --muted:#8f9ca0; --line:#34403f; --car:#6d8cff; --amber:#f2b705; --ok:#4cc38a; --bad:#ff7b72; --bandbg:rgba(242,183,5,.18); }
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;min-height:100vh;padding:20px}
-  main{max-width:760px;margin:0 auto}
-  header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:10px}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;min-height:100vh;padding:18px}
+  main{max-width:860px;margin:0 auto}
+  header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;gap:10px}
   h1{font-size:1.5rem;margin:0}
   #conn{font-size:.9rem;color:var(--muted);display:flex;align-items:center;gap:8px}
   #dot{width:10px;height:10px;border-radius:50%;background:var(--muted)}
   #dot.ok{background:var(--ok)} #dot.bad{background:var(--bad)}
-  .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
-  @media (max-width:560px){.grid{grid-template-columns:1fr}}
-  .panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px}
-  .shaft{display:flex;flex-direction:column-reverse;height:360px;position:relative;border-left:3px solid var(--line);border-right:3px solid var(--line)}
-  .floor{flex:1;border-top:1px dashed var(--line);display:flex;align-items:center;padding-left:10px;color:var(--muted);font-size:.9rem}
-  .floor:last-child{border-top:none}
-  #car{position:absolute;left:60px;right:14px;height:calc(100% / 6 - 8px);margin:4px 0;background:var(--car);border-radius:6px;bottom:0;transition:bottom .9s ease;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.3rem}
-  .big{font-size:3.6rem;font-weight:800;line-height:1}
-  .label{color:var(--muted);margin-bottom:6px}
-  .stack > * + *{margin-top:22px}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:16px}
+  .label{color:var(--muted);font-size:.9rem;margin-bottom:8px}
+  #floors{display:flex;gap:8px;flex-wrap:wrap}
+  #floors button{width:52px;height:52px;border-radius:8px;border:2px solid var(--line);background:transparent;color:var(--ink);font-size:1.2rem;font-weight:700;cursor:pointer}
+  #floors button.sel{background:var(--amber);border-color:var(--amber);color:#1b2a2e}
+  .rec{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+  .rec .name{font-size:2.8rem;font-weight:800;line-height:1}
+  .rec .eta{font-size:1.4rem}
+  .sub{color:var(--muted);margin-top:6px}
+  .best{color:var(--ok)}
+  .warn{margin-top:12px;padding:8px 12px;border-radius:8px;background:var(--bandbg);border:1px solid var(--amber)}
+  .rank{width:100%;border-collapse:collapse;margin-top:14px;font-size:.95rem}
+  .rank td{padding:8px 6px;border-top:1px solid var(--line)}
+  .rank tr.top td{font-weight:700}
+  .rank tr.off td{color:var(--muted)}
+  .tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:.8rem;font-weight:700;border:1px solid currentColor}
+  .tag.low{color:var(--ok)} .tag.medium{color:var(--amber)} .tag.high,.tag.full{color:var(--bad)}
+  .tag.maintenance{color:var(--amber)} .tag.offline{color:var(--muted)}
+  .cols{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px}
+  @media (max-width:640px){.cols{grid-template-columns:1fr}}
+  .heads,.tracks{display:grid;grid-template-columns:44px 1fr 1fr 1fr}
+  .heads b{text-align:center;padding-bottom:6px;font-size:.95rem}
+  .tracks{height:300px;position:relative;border-top:1px solid var(--line)}
+  .band{position:absolute;left:0;right:0;height:50px;background:var(--bandbg);border-top:1px solid var(--amber);border-bottom:1px solid var(--amber);z-index:0;transition:bottom .3s}
+  .labs{display:flex;flex-direction:column-reverse;position:relative;z-index:1}
+  .labs div{height:50px;display:flex;align-items:center;color:var(--muted);font-size:.85rem}
+  .track{position:relative;z-index:1;border-left:2px solid var(--line);background:repeating-linear-gradient(to top,transparent 0,transparent 49px,var(--line) 49px,var(--line) 50px)}
+  .car{position:absolute;left:6px;right:6px;height:42px;bottom:4px;border-radius:6px;background:var(--car);color:#fff;font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center;gap:4px;transition:bottom .9s ease}
+  .car.best{outline:3px solid var(--ok);outline-offset:2px}
+  .car.off{background:var(--muted);opacity:.45}
+  .car.full{background:var(--bad)}
+  .car.maintenance{background:repeating-linear-gradient(45deg,#e8a800,#e8a800 8px,#3a3a3a 8px,#3a3a3a 16px);text-shadow:0 1px 2px #000}
+  .big{font-size:3rem;font-weight:800;line-height:1}
   #crowdbar{height:12px;background:var(--line);border-radius:6px;overflow:hidden;margin-top:10px}
   #crowdfill{height:100%;width:0;background:var(--amber);transition:width .5s}
-  .stamp{font-size:.8rem;color:var(--muted);margin-top:14px}
+  .stamp{font-size:.8rem;color:var(--muted);margin-top:10px}
+  .staff{display:flex;gap:8px;flex-wrap:wrap}
+  .staff button{padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;font-size:.9rem}
+  .staff button.on{border-color:var(--amber);background:var(--bandbg)}
 </style>
 </head>
 <body>
@@ -42,54 +69,89 @@
     <div id="conn"><span id="dot"></span><span id="connText">connecting...</span></div>
   </header>
 
-  <div class="grid">
+  <section class="panel">
+    <div class="label">Tum kaun se floor par ho?</div>
+    <div id="floors"></div>
+  </section>
+
+  <section class="panel">
+    <div class="label">Best lift for you</div>
+    <div class="rec">
+      <div class="name" id="recName">-</div>
+      <div>
+        <div class="eta" id="recEta">-</div>
+        <div class="sub" id="recSub"></div>
+      </div>
+    </div>
+    <div class="warn" id="floorWarn" style="display:none"></div>
+    <table class="rank" id="rank"></table>
+  </section>
+
+  <div class="cols">
     <section class="panel">
-      <div class="shaft" id="shaft"><div id="car">0</div></div>
+      <div class="label">Live lift positions</div>
+      <div class="heads"><span></span><b>Lift A</b><b>Lift B</b><b>Lift C</b></div>
+      <div class="tracks" id="tracks">
+        <div class="band" id="band"></div>
+        <div class="labs" id="labs"></div>
+        <div class="track"><div class="car" id="car1"></div></div>
+        <div class="track"><div class="car" id="car2"></div></div>
+        <div class="track"><div class="car" id="car3"></div></div>
+      </div>
     </section>
 
-    <section class="panel stack">
-      <div>
-        <div class="label">Current floor</div>
-        <div class="big" id="floor">-</div>
-      </div>
-      <div>
-        <div class="label">Direction</div>
-        <div class="big" style="font-size:2.2rem" id="direction">-</div>
-      </div>
-      <div>
-        <div class="label">People waiting</div>
-        <div class="big" id="crowd">-</div>
-        <div id="crowdbar"><div id="crowdfill"></div></div>
-      </div>
+    <section class="panel">
+      <div class="label" id="crowdLabel">People waiting on your floor</div>
+      <div class="big" id="crowd">0</div>
+      <div id="crowdbar"><div id="crowdfill"></div></div>
       <div class="stamp" id="stamp"></div>
     </section>
   </div>
+
+  <section class="panel">
+    <div class="label">Staff: maintenance mode (PIN chahiye)</div>
+    <div class="staff" id="staff"></div>
+  </section>
 </main>
 
 <script src="config.js"></script>
 <script>
-  const FLOORS = 6; // floor 0 se 5
-  const shaft = document.getElementById("shaft");
-  const car = document.getElementById("car");
-  for (let i = FLOORS - 1; i >= 0; i--) {
-    const d = document.createElement("div");
-    d.className = "floor"; d.textContent = "Floor " + i;
-    shaft.insertBefore(d, car);
+  const FLOORS = 6, ROW = 50;
+  const ARROW = { up: "▲", down: "▼", idle: "●" };
+  const STATUS_TEXT = { maintenance: "Under maintenance", full: "Full", offline: "No data" };
+  let myFloor = 0, adminPin = "", lastLifts = [];
+  try { const s = localStorage.getItem("myFloor"); if (s !== null) myFloor = parseInt(s); } catch (e) {}
+
+  const floorsEl = document.getElementById("floors");
+  for (let i = 0; i < FLOORS; i++) {
+    const b = document.createElement("button");
+    b.textContent = i;
+    b.onclick = () => { myFloor = i; try { localStorage.setItem("myFloor", i); } catch (e) {} paintFloors(); load(); };
+    floorsEl.appendChild(b);
   }
-  const arrows = { up: "▲ Up", down: "▼ Down", idle: "Idle" };
+  function paintFloors() { [...floorsEl.children].forEach((b, i) => b.className = i === myFloor ? "sel" : ""); }
+  const labs = document.getElementById("labs");
+  for (let i = 0; i < FLOORS; i++) { const d = document.createElement("div"); d.textContent = "F" + i; labs.appendChild(d); }
+  paintFloors();
+
+  async function toggleMaint(id, on) {
+    if (!adminPin) adminPin = prompt("Staff PIN daalo:") || "";
+    if (!adminPin) return;
+    try {
+      const r = await fetch(window.API_URL + "/maintenance", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ lift_id: id, on: on, pin: adminPin })
+      });
+      if (r.status === 403) { alert("Galat PIN"); adminPin = ""; return; }
+      load();
+    } catch (e) { alert("Backend se connect nahi ho paya"); }
+  }
 
   async function load() {
     try {
-      const r = await fetch(window.API_URL + "/status");
+      const r = await fetch(window.API_URL + "/recommend?floor=" + myFloor);
       const d = await r.json();
-      document.getElementById("floor").textContent = d.floor;
-      document.getElementById("direction").textContent = arrows[d.direction] || d.direction;
-      document.getElementById("crowd").textContent = d.crowd_count;
-      document.getElementById("crowdfill").style.width = Math.min(100, d.crowd_count * 10) + "%";
-      car.textContent = d.floor;
-      car.style.bottom = (d.floor * 100 / FLOORS) + "%";
-      if (d.updated) document.getElementById("stamp").textContent =
-        "Last update: " + new Date(d.updated * 1000).toLocaleTimeString();
+      draw(d);
       document.getElementById("dot").className = "ok";
       document.getElementById("connText").textContent = "live";
     } catch (e) {
@@ -97,6 +159,74 @@
       document.getElementById("connText").textContent = "backend se connect nahi ho raha";
     }
   }
+
+  function draw(d) {
+    // lifts ki positions
+    d.lifts.forEach(l => {
+      const c = document.getElementById("car" + l.id);
+      c.style.bottom = (l.floor * ROW + 4) + "px";
+      c.textContent = l.name + " " + (l.status === "maintenance" ? "MAINT" : ARROW[l.direction]);
+      let cls = "car";
+      if (l.id === d.best) cls += " best";
+      if (l.status === "offline") cls += " off";
+      if (l.status === "full") cls += " full";
+      if (l.status === "maintenance") cls += " maintenance";
+      c.className = cls;
+    });
+    document.getElementById("band").style.bottom = (d.floor * ROW) + "px";
+
+    // recommendation card
+    const byId = {}; d.lifts.forEach(l => byId[l.id] = l);
+    const best = byId[d.best];
+    const nameEl = document.getElementById("recName");
+    if (best) {
+      nameEl.textContent = "Lift " + best.name; nameEl.className = "name best";
+      document.getElementById("recEta").textContent = best.eta === 0 ? "Already on your floor" : "arrives in ~" + best.eta + " sec";
+      document.getElementById("recSub").textContent = d.reason + ". Abhi floor " + best.floor + " par, " +
+        (best.direction === "idle" ? "ruki hui" : best.direction === "up" ? "upar ja rahi" : "neeche ja rahi") +
+        ", " + best.load + "/" + best.capacity + " log andar.";
+    } else {
+      nameEl.textContent = "-"; nameEl.className = "name";
+      document.getElementById("recEta").textContent = "No lift available";
+      document.getElementById("recSub").textContent = d.reason + ". Simulator chalu hai? Ya sab lifts maintenance me hain.";
+    }
+    const warn = document.getElementById("floorWarn");
+    if (d.floor_crowded) {
+      warn.style.display = "block";
+      warn.textContent = "Is floor par bheed hai (" + d.waiting_here + " log). Ek se zyada lift lag sakti hain.";
+    } else warn.style.display = "none";
+
+    // ranking table
+    let html = "";
+    d.ranking.forEach((id, i) => {
+      const l = byId[id];
+      html += `<tr class="${i === 0 ? "top" : ""}"><td>#${i + 1}</td><td>Lift ${l.name}</td><td>${l.eta} sec</td>` +
+        `<td>F${l.floor} ${ARROW[l.direction]}</td>` +
+        `<td><span class="tag ${l.crowd_level}">${l.load}/${l.capacity} ${l.crowd_level}</span></td></tr>`;
+    });
+    d.lifts.filter(l => l.status !== "ok").forEach(l => {
+      html += `<tr class="off"><td>-</td><td>Lift ${l.name}</td><td colspan="3"><span class="tag ${l.status}">${STATUS_TEXT[l.status]}</span></td></tr>`;
+    });
+    document.getElementById("rank").innerHTML = html;
+
+    // crowd on floor
+    document.getElementById("crowdLabel").textContent = "People waiting on floor " + d.floor;
+    document.getElementById("crowd").textContent = d.waiting_here;
+    document.getElementById("crowdfill").style.width = Math.min(100, d.waiting_here * 10) + "%";
+    document.getElementById("stamp").textContent = "Updated: " + new Date().toLocaleTimeString();
+
+    // staff buttons
+    const staff = document.getElementById("staff");
+    staff.innerHTML = "";
+    d.lifts.forEach(l => {
+      const b = document.createElement("button");
+      b.className = l.maintenance ? "on" : "";
+      b.textContent = l.maintenance ? "Lift " + l.name + ": back to service" : "Lift " + l.name + ": set maintenance";
+      b.onclick = () => toggleMaint(l.id, !l.maintenance);
+      staff.appendChild(b);
+    });
+  }
+
   load(); setInterval(load, 2000);
 </script>
 </body>
