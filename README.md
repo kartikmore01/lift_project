@@ -1,19 +1,21 @@
 # Lift Project
 
-- backend/  -> FastAPI (Render par deploy)
-- frontend/ -> dashboard (Vercel par deploy)
-- esp32_simulator.py -> fake lift data
-- camera-detector.html -> webcam se crowd count
+Sab kuch ek Netlify site par chalta hai (https://bestlift.netlify.app):
 
-## Local chalana
-1. cd backend && pip install -r requirements.txt && uvicorn main:app --reload
-2. frontend/index.html browser me kholo
-3. naye terminal me: pip install requests && python esp32_simulator.py
-4. camera-detector.html kholo, Start camera dabao
+- `public/index.html` -> Lift dashboard
+- `public/camera-detector.html` -> webcam se crowd count (dashboard par "Open camera")
+- `netlify/functions/api.mts` -> backend API (`/api/recommend`, `/api/status`, `/api/lift`, `/api/crowd`, `/api/maintenance`)
+- `db/schema.ts` -> Netlify Database (Postgres) tables; migrations `netlify/database/migrations/` me
+- `esp32_simulator.py` -> fake lift data
 
-## Deploy
-Backend (Render): Root Directory = backend
-  Build: pip install -r requirements.txt
-  Start: uvicorn main:app --host 0.0.0.0 --port $PORT
-Frontend (Vercel): Root Directory = frontend
-  Deploy ke baad frontend/config.js me Render URL daalo, commit + push karo.
+## Camera se Lift B aur C bhejna
+Camera page kholo, floor chuno, "Start camera" dabao. Har 2 sec me people count backend ko jaata hai.
+Agar 6 ya zyada log dikhe to Lift B aur Lift C us floor par apne aap bheji jaati hain
+(maintenance wali lift nahi jaati). Lift har 3 sec me ek floor chalti hai aur dashboard par `→F<floor>` dikhta hai.
+
+## Chalana
+1. Deploy: GitHub `main` par push karo, Netlify khud build + DB migration karta hai.
+2. Fake lifts: `pip install requests && python esp32_simulator.py` (default: https://bestlift.netlify.app/api)
+3. Staff PIN: Netlify env var `ADMIN_PIN` set karo (default 1234).
+
+`main.py` purana FastAPI backend hai; ab zaroori nahi.

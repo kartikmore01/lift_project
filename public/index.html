@@ -66,6 +66,7 @@
 <main>
   <header>
     <h1>Lift Dashboard</h1>
+    <a href="/camera-detector" style="color:inherit">Open camera</a>
     <div id="conn"><span id="dot"></span><span id="connText">connecting...</span></div>
   </header>
 
@@ -165,7 +166,8 @@
     d.lifts.forEach(l => {
       const c = document.getElementById("car" + l.id);
       c.style.bottom = (l.floor * ROW + 4) + "px";
-      c.textContent = l.name + " " + (l.status === "maintenance" ? "MAINT" : ARROW[l.direction]);
+      c.textContent = l.name + " " + (l.status === "maintenance" ? "MAINT" : ARROW[l.direction]) +
+        (l.dispatch_floor !== null && l.dispatch_floor !== undefined ? " →F" + l.dispatch_floor : "");
       let cls = "car";
       if (l.id === d.best) cls += " best";
       if (l.status === "offline") cls += " off";
@@ -193,7 +195,9 @@
     const warn = document.getElementById("floorWarn");
     if (d.floor_crowded) {
       warn.style.display = "block";
-      warn.textContent = "Is floor par bheed hai (" + d.waiting_here + " log). Ek se zyada lift lag sakti hain.";
+      const sent = d.lifts.filter(l => l.dispatch_floor === d.floor).map(l => "Lift " + l.name);
+      warn.textContent = "Is floor par bheed hai (" + d.waiting_here + " log). " +
+        (sent.length ? sent.join(" aur ") + " is floor par aa rahi hai." : "Ek se zyada lift lag sakti hain.");
     } else warn.style.display = "none";
 
     // ranking table
